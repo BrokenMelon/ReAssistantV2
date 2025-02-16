@@ -1,0 +1,131 @@
+<main class="main p-10">
+  <mat-card>
+    <mat-card-header>Upload Previously Implemented Product Specifications</mat-card-header>
+    <mat-card-content>
+      <input
+        type="file"
+        class="mt-4"
+        accept=".xml,.txt"
+        multiple
+        (change)="parseRequirements($event)"
+        aria-label="Upload a file"
+      />
+      <div class="list-wrapper">
+        <mat-list *ngIf="!parsedRequirementsLoading">
+          <mat-list-item *ngFor="let rq of parsedRequirements">
+            {{ rq }}
+          </mat-list-item>
+        </mat-list>
+        <mat-spinner *ngIf="parsedRequirementsLoading"></mat-spinner>
+      </div>
+    </mat-card-content>
+    <mat-card-header>
+      <button mat-button (click)="generalizeAndCategorizeRequirementsParallel()">
+        Generalized Requirements:
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card>
+        <mat-card-header>
+          Functional Requirements
+        </mat-card-header>
+        <mat-card-content>
+          <div class="list-wrapper">
+            <mat-list *ngIf="!generifiedRequirementsLoading">
+              <mat-list-item *ngFor="let rq of generifiedFunctionalRequirements">{{ rq }}</mat-list-item>
+            </mat-list>
+            <mat-spinner *ngIf="generifiedRequirementsLoading"></mat-spinner>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="mt-10">
+        <mat-card-header>
+          Quality Requirements
+        </mat-card-header>
+        <mat-card-content>
+          <div class="list-wrapper">
+            <mat-list *ngIf="!generifiedRequirementsLoading">
+              <mat-list-item *ngFor="let rq of generifiedNonFunctionalRequirements">{{ rq }}</mat-list-item>
+            </mat-list>
+            <mat-spinner *ngIf="generifiedRequirementsLoading"></mat-spinner>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mt-10">
+    <mat-card-header>Enter Product Description</mat-card-header>
+    <mat-card-content>
+      <mat-form-field subscriptSizing="dynamic" style="width: 100% !important;">
+        <textarea matInput [(ngModel)]="productDescription" class="textarea" rows="10"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-header>
+      <button mat-button (click)="generateRequirements()">
+        Generated Requirements:
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="list-wrapper">
+        <mat-selection-list
+          [(ngModel)]="selectedRequirements"
+          *ngIf="!generatedRequirementsLoading"
+        >
+          <mat-list-option *ngFor="let rq of generatedRequirements" [value]="rq">{{ rq }}</mat-list-option>
+        </mat-selection-list>
+
+        <mat-spinner *ngIf="generatedRequirementsLoading"></mat-spinner>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mt-10">
+    <mat-card-header>
+      <button mat-button (click)="processRequirementsParallel()">
+        Processed Requirements:
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card class="mt-5">
+        <mat-card-header>
+          <div class="flex justify-between w-full align-middle">
+            <div class="flex items-center">
+              Reusable Requirements:
+            </div>
+            <div class="flex items-center ml-auto pr-2">
+              Sorted by Reusability
+            </div>
+            <mat-slide-toggle [(ngModel)]="sortToggleButton" (change)="sortReusableRequirementsParallel($event.checked)"></mat-slide-toggle>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="list-wrapper">
+            <mat-list *ngIf="!reusableRequirementsLoading">
+              <mat-list-item *ngFor="let rq of reusableRequirements">{{ rq }}</mat-list-item>
+            </mat-list>
+            <mat-spinner *ngIf="reusableRequirementsLoading"></mat-spinner>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mt-10">
+        <mat-card-header>Non-Reusable Requirements:</mat-card-header>
+        <mat-card-content>
+          <div class="list-wrapper">
+            <mat-list *ngIf="!nonReusableRequirementsLoading">
+              <mat-list-item *ngFor="let rq of nonReusableRequirements">{{ rq }}</mat-list-item>
+            </mat-list>
+            <mat-spinner *ngIf="nonReusableRequirementsLoading"></mat-spinner>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-card-content>
+  </mat-card>
+</main>
+
+<router-outlet></router-outlet>

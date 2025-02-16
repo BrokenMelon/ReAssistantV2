@@ -1,0 +1,20 @@
+mat-selection-list, mat-list {
+  overflow: auto;
+  min-height: 200px;
+  max-height: 200px;
+  width: 100%;
+}
+
+.list-wrapper {
+  overflow: auto;
+  min-height: 200px;
+  max-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+textarea {
+  resize: none !important;
+  height: auto;
+}
